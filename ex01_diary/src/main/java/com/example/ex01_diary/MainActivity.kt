@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity()
         edtDiary = findViewById<EditText>(R.id.edtDiary)
         btnWrite = findViewById<Button>(R.id.btnWrite)
 
-
-
         var fileName = ""
 
         //년,월,일 을 가져온다. (오늘 날짜를 캘린더 객체에서)
@@ -37,7 +35,10 @@ class MainActivity : AppCompatActivity()
         var day = cal.get(Calendar.DAY_OF_MONTH)
 //
 //        fileName = ""+ year + "_" + month + "_" + day + ".txt"
-//
+        fileName = ""+ year + "_" + (month + 1) + "_" + day + ".txt"
+        var str1 : String = readDiary(fileName)
+        edtDiary.setText(str1)
+
 //        btnWrite.isEnabled = true
 
         //쓰기 버튼을 눌렀을때, 1.날짜와 2.내용을 "파일에 쓴다"
@@ -71,11 +72,13 @@ class MainActivity : AppCompatActivity()
             inFs.read(byteArr)
             inFs.close()
             str1 = byteArr.toString(Charsets.UTF_8)
+            btnWrite.text = "수정하기"
         }
         catch (e1 : IOException)
         {
             edtDiary.hint = "해당날짜에 일기 없음"
             btnWrite.text = "새로저장"
+
         }
         return str1
     }
