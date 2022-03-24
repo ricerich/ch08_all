@@ -8,19 +8,27 @@ import android.util.AttributeSet
 import android.view.View
 import java.lang.Exception
 
-class MyPictureView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
-    var imagePath: String? = null
+class MyPictureView(context: Context?, attrs: AttributeSet?) : View(context, attrs)
+{
+    var imgPath : String = ""
 
-    override fun onDraw(canvas: Canvas) {
+    override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+
         try {
-            if (imagePath != null) {
-                var bitmap = BitmapFactory.decodeFile(imagePath)
-                canvas.scale(2f, 2f, 0f, 0f)
-                canvas.drawBitmap(bitmap!!, 0f, 0f, null)
-                bitmap!!.recycle()
-            }
-        } catch (e: Exception) {
+            //1.renoir01.png -> 2.byte[]배열 -> 3.bitmap 객체로 -> 4.canvas에 붙임
+            //         var bitmap : Bitmap = BitmapFactory.decodeFile("renoir01.png")
+          if(imgPath != null) {
+              var bitmap: Bitmap = BitmapFactory.decodeFile(imgPath)//sd카드의 파일 경로
+              canvas!!.scale(2f, 2f, 0f, 0f)
+              canvas!!.drawBitmap(bitmap, 0f, 0f, null)
+
+              bitmap!!.recycle()
+          }
+        }
+        catch(e : Exception)
+        {
+            e.printStackTrace()
         }
     }
 }

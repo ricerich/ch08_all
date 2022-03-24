@@ -24,7 +24,7 @@
             android:text=" 다음 그림 " />
     </LinearLayout>
 
-    <com.cookandroid.project8_2.MyPictureView
+    <com.example.ex03_picture_sdcard.MyPictureView
         android:id="@+id/myPictureView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

@@ -10,48 +10,50 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import java.io.File
 
-class MainActivity : AppCompatActivity() {
-    lateinit var btnPrev : Button
-    lateinit var btnNext : Button
-    lateinit var myPicture : MyPictureView
-    var curNum : Int = 0
-    var imageFiles : Array<File>? = null
-    lateinit var imageFname : String
-
+class MainActivity : AppCompatActivity()
+{
+//    var imgFileArr : Array<File>? = null;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         title = "간단 이미지 뷰어"
         ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), Context.MODE_PRIVATE)
 
-        btnPrev = findViewById<Button>(R.id.btnPrev)
-        btnNext = findViewById<Button>(R.id.btnNext)
-        myPicture = findViewById<MyPictureView>(R.id.myPictureView1)
+        var btnPrev = findViewById<Button>(R.id.btnPrev)
+        var btnNext = findViewById<Button>(R.id.btnNext)
+        var myPictureView = findViewById<MyPictureView>(R.id.myPictureView1)
 
-        imageFiles = File(Environment.getExternalStorageDirectory().absolutePath + "/Pictures").listFiles()
-        imageFname = imageFiles!![0].toString()
-        myPicture.imagePath=imageFname
+        //File() 객체는 1.디렉토리(파일여러개목록 가져올수 있음) 2.파일
+        var imgFileArr = File(Environment.getExternalStorageDirectory().absolutePath + "/Pictures").listFiles()
+        var imgFileName = imgFileArr[0].toString()
+        myPictureView.imgPath = imgFileName
 
+        var curNum : Int = 0 //현재 위치번호
         btnPrev.setOnClickListener {
-            if (curNum <= 0) {
-                Toast.makeText(applicationContext, "첫번째 그림입니다", Toast.LENGTH_SHORT).show()
-            } else {
+            if(curNum == 0)
+            {
+                Toast.makeText(this, "첫번째그림임!", Toast.LENGTH_SHORT).show()
+            }
+            else {
                 curNum--
-                imageFname = imageFiles!![curNum].toString()
-                myPicture.imagePath=imageFname
-                myPicture.invalidate()
+                var imgFileName = imgFileArr[curNum].toString()
+                myPictureView.imgPath = imgFileName
+                myPictureView.invalidate()
+            }
+        }
+        btnNext.setOnClickListener {
+            if(curNum == imgFileArr.size-1)
+            {
+                Toast.makeText(this, "마지막그림임!", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                curNum++
+                var imgFileName = imgFileArr[curNum].toString()
+                myPictureView.imgPath = imgFileName
+                myPictureView.invalidate()
             }
         }
 
-        btnNext.setOnClickListener {
-            if (curNum >= imageFiles!!.size - 1) {
-                Toast.makeText(applicationContext, "마지막 그림입니다", Toast.LENGTH_SHORT).show()
-            } else {
-                curNum++
-                imageFname = imageFiles!![curNum].toString()
-                myPicture.imagePath=imageFname
-                myPicture.invalidate()
-            }
-        }
+
     }
 }
